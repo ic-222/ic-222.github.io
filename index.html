@@ -3,83 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Efecto de Ondas en Móviles</title>
-    <style>
-        body, html {
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
-            min-height: 100vh;
-            overflow-x: hidden;
-            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
-            background-size: 400% 400%;
-            animation: backgroundAnimation 15s ease infinite;
-            background-attachment: fixed;
-        }
-
-        .container {
-            position: relative;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .wave {
-            position: absolute;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.3);
-            transform: scale(0);
-            animation: ripple 1s linear;
-            pointer-events: none;
-        }
-
-        @keyframes ripple {
-            to {
-                transform: scale(4);
-                opacity: 0;
-            }
-        }
-
-        @keyframes backgroundAnimation {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-    </style>
+    <title>Efecto de Ondas</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container" id="ripple-container">
-        <h1>Toca para ver el efecto</h1>
+    <div class="content">
+        <h1>¡Feliz Cumpleaños!</h1>
+        <p>Desplázate hacia abajo para ver el efecto de las ondas.</p>
+        <!-- Contenido largo para generar scroll -->
+        <div class="scroll-content"></div>
     </div>
 
-    <script>
-        document.getElementById("ripple-container").addEventListener("click", function(e) {
-            createRipple(e);
-        });
+    <canvas id="rippleCanvas"></canvas>
 
-        document.getElementById("ripple-container").addEventListener("touchstart", function(e) {
-            createRipple(e.touches[0]);  // Detecta toque en pantallas táctiles
-        });
-
-        function createRipple(event) {
-            const container = event.currentTarget;
-            const ripple = document.createElement("span");
-            const size = Math.max(container.clientWidth, container.clientHeight);
-            const x = event.clientX - container.offsetLeft - size / 2;
-            const y = event.clientY - container.offsetTop - size / 2;
-
-            ripple.style.width = ripple.style.height = `${size}px`;
-            ripple.style.left = `${x}px`;
-            ripple.style.top = `${y}px`;
-            ripple.classList.add("wave");
-
-            container.appendChild(ripple);
-
-            setTimeout(() => {
-                ripple.remove();
-            }, 1000);  // La onda desaparece después de 1 segundo
-        }
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>

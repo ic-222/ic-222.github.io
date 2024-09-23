@@ -1,224 +1,24 @@
 body, html {
     margin: 0;
     padding: 0;
+    overflow: hidden;
     font-family: Arial, sans-serif;
-    min-height: 100vh;
+    height: 100vh;
 }
 
-body {
-    overflow-x: hidden;
-    overflow-y: auto;
-    background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
-    background-size: 400% 400%;
-    animation: backgroundAnimation 15s ease infinite;
-    background-attachment: fixed;
-    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="%23ff69b4"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6zm0 10c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4z"/></svg>') 20 20, auto;
-}
-
-.container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
+.content {
     text-align: center;
+    padding-top: 50px;
 }
 
-header {
-    background-color: rgba(255, 105, 180, 0.8);
-    color: white;
-    padding: 20px;
-    border-radius: 10px;
-    margin-bottom: 20px;
-    backdrop-filter: blur(5px);
+.scroll-content {
+    height: 2000px;
+    background: linear-gradient(to bottom, #ff7e5f, #feb47b);
 }
 
-h1 {
-    margin: 0;
-    font-size: 2.5em;
-}
-
-h2 {
-    color: #333;
-    margin-bottom: 15px;
-}
-
-#countdown {
-    margin-bottom: 20px;
-    background-color: rgba(255, 255, 255, 0.8);
-    padding: 15px;
-    border-radius: 10px;
-}
-
-#timer {
-    font-size: 1.5em;
-    font-weight: bold;
-    color: #e73c7e;
-}
-
-.photo-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 10px;
-    margin-bottom: 20px;
-}
-
-.photo-grid img {
-    width: 100%;
-    height: auto;
-    border-radius: 5px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    transition: transform 0.3s ease;
-}
-
-.photo-grid img:hover {
-    transform: scale(1.05);
-}
-
-.birthday-card {
-    width: 200px;
-    height: 300px;
-    margin: 0 auto;
-    perspective: 1000px;
-    cursor: pointer;
-}
-
-.card-front, .card-inside {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    backface-visibility: hidden;
-    transition: transform 0.6s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: rgba(240, 240, 240, 0.9);
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-}
-
-.card-front {
-    background-color: #8025c1be;
-    color: white;
-    font-weight: bold;
-}
-
-.card-inside {
-    transform: rotateY(180deg);
-    background-color: rgba(8, 83, 69, 0.249);
-    padding: 20px;
-    box-sizing: border-box;
-}
-
-.birthday-card.open .card-front {
-    transform: rotateY(180deg);
-}
-
-.birthday-card.open .card-inside {
-    transform: rotateY(0deg);
-}
-
-
-
-#audioControls {
+canvas {
     position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background-color: rgba(255, 255, 255, 0.8);
-    padding: 10px;
-    border-radius: 20px;
-    box-shadow: 0 2px 10px rgba(223, 25, 25, 0.1);
-}
-
-#audioControls audio {
-    width: 250px;
-    height: 40px;
-}
-
-/* Estilos personalizados para el reproductor de audio */
-#audioControls audio::-webkit-media-controls-panel {
-    background-color: rgba(105, 113, 255, 0.7);
-}
-
-#audioControls audio::-webkit-media-controls-play-button,
-#audioControls audio::-webkit-media-controls-mute-button {
-    background-color: rgba(255, 255, 255, 0.064);
-    border-radius: 50%;
-}
-
-#audioControls audio::-webkit-media-controls-current-time-display,
-#audioControls audio::-webkit-media-controls-time-remaining-display {
-    color: white;
-}
-
-#audioControls audio::-webkit-media-controls-timeline {
-    background-color: rgba(255, 255, 255, 0.5);
-    border-radius: 25px;
-    margin-left: 10px;
-    margin-right: 10px;
-}
-
-/* Ajustes responsivos */
-@media (max-width: 600px) {
-    #audioControls {
-        bottom: 10px;
-        right: 10px;
-    }
-
-    #audioControls audio {
-        width: 200px;
-    }
-}
-
-@keyframes backgroundAnimation {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-}
-
-.wave {
-    position: absolute;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.3);
-    transform: scale(0);
-    animation: ripple 1s linear;
-    pointer-events: none;
-}
-
-@keyframes ripple {
-    to {
-        transform: scale(4);
-        opacity: 0;
-    }
-}
-
-@media (max-width: 600px) {
-    .container {
-        padding: 10px;
-    }
-
-    h1 {
-        font-size: 2em;
-    }
-
-    .photo-grid {
-        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-    }
-
-    .birthday-card {
-        width: 180px;
-        height: 270px;
-    }
-
-    #shareBtn, #playPauseBtn {
-        padding: 10px 20px;
-        font-size: 14px;
-    }
-
-    #audioControls {
-        bottom: 10px;
-        right: 10px;
-    }
-
-    #volumeSlider {
-        width: 80px;
-    }
+    top: 0;
+    left: 0;
+    z-index: -1;
 }
