@@ -1,6 +1,6 @@
 // Countdown Timer
 function updateCountdown() {
-    const birthday = new Date("2025-09-22T00:00:00").getTime(); // Asegúrate de cambiar esta fecha al cumpleaños correcto
+    const birthday = new Date("2023-12-31T00:00:00").getTime(); // Asegúrate de cambiar esta fecha al cumpleaños correcto
     const now = new Date().getTime();
     const distance = birthday - now;
 
@@ -18,8 +18,6 @@ function updateCountdown() {
 }
 
 const countdownTimer = setInterval(updateCountdown, 1000);
-
-// Llamar a updateCountdown inmediatamente para evitar el retraso inicial
 updateCountdown();
 
 // Birthday Card Animation
@@ -42,57 +40,76 @@ document.getElementById('shareBtn').addEventListener('click', () => {
     }
 });
 
-// Background Music Toggle
-const musicToggle = document.getElementById('musicToggle');
-const bgMusic = document.getElementById('bgMusic');
+// ... (código anterior sin cambios) ...
 
-musicToggle.addEventListener('click', () => {
-    if (bgMusic.paused) {
-        bgMusic.play().then(() => {
-            musicToggle.textContent = '🔊';
-        }).catch((error) => {
-            console.error('Error al reproducir el audio:', error);
-            alert('No se pudo reproducir el audio. Por favor, verifica que el archivo exista y que tu navegador permita la reproducción automática.');
-        });
-    } else {
-        bgMusic.pause();
-        musicToggle.textContent = '🔇';
-    }
-});
+// Audio Player
+let audioContext;
+let audioBuffer;
+let audioSource;
+let isPlaying = false;
 
-// Intentar cargar el audio
-bgMusic.load();
+const playPauseBtn = document.getElementById('playPauseBtn');
+const volumeSlider = document.getElementById('volumeSlider');
 
-// Wave effect on touch (for mobile devices)
-document.body.addEventListener('touchstart', function(e) {
-    const touch = e.touches[0];
-    const wave = document.createElement('div');
-    wave.classList.add('wave');
-    wave.style.left = `${touch.clientX}px`;
-    wave.style.top = `${touch.clientY}px`;
-    document.body.appendChild(wave);
-    setTimeout(() => {
-        wave.remove();
-    }, 1000);
-});
-
-// Add this CSS for the wave effect
-const style = document.createElement('style');
-style.textContent = `
-    .wave {
-        position: absolute;
-        border-radius: 50%;
-        background: rgba(255, 255, 255, 0.3);
-        transform: scale(0);
-        animation: ripple 1s linear;
-        pointer-events: none;
-    }
-
-    @keyframes ripple {
-        to {
-            transform: scale(4);
-            opacity: 0;
+async function initAudio() {
+    try {
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        const response = await fetch('happy-birthday.mp3');
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
         }
+        const arrayBuffer = await response.arrayBuffer();
+        audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
+        console.log('Audio loaded successfully');
+        playPauseBtn.disabled = false;
+    } catch (error) {
+        console.error('Error loading audio:', error);
+        alert(`No se pudo cargar el audio. Error: ${error.message}\n\nPor favor, verifica que:\n1. El archivo "happy-birthday.mp3" existe en el mismo directorio que el archivo HTML.\n2. El nombre del archivo está escrito exactamente como "happy-birthday.mp3" (sensible a mayúsculas).\n3. Estás usando un servidor web local para servir los archivos.\n\nSi el problema persiste, abre la consola del navegador para ver más detalles del error.`);
     }
-`;
-document.head.appendChild(style);
+}
+
+function playPauseAudio() {
+    if (!audioContext) {
+        playPauseBtn.disabled = true;
+        initAudio().then(() => {
+            playPauseBtn.disabled = false;
+            playPauseAudio();
+        });
+        return;
+    }
+
+    if (isPlaying) {
+        audioSource.stop();
+        isPlaying = false;
+        playPauseBtn.textContent = '▶️';
+    } else {
+        audioSource = audioContext.createBufferSource();
+        audioSource.buffer = audioBuffer;
+        const gainNode = audioContext.createGain();
+        audioSource.connect(gainNode);
+        gainNode.connect(audioContext.destination);
+        gainNode.gain.value = volumeSlider.value;
+        audioSource.loop = true;
+        audioSource.start();
+        isPlaying = true;
+        playPauseBtn.textContent = '⏸️';
+    }
+}
+
+function updateVolume() {
+    if (audioContext && isPlaying) {
+        const gainNode = audioContext.createGain();
+        gainNode.gain.value = volumeSlider.value;
+        audioSource.disconnect();
+        audioSource.connect(gainNode);
+        gainNode.connect(audioContext.destination);
+    }
+}
+
+playPauseBtn.addEventListener('click', playPauseAudio);
+volumeSlider.addEventListener('input', updateVolume);
+
+// Iniciar la carga del audio cuando se carga la página
+window.addEventListener('load', initAudio);
+
+// ... (resto del código sin cambios) ...
