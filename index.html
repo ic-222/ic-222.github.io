@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday, Friend!</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Happy Birthday, Friend!</h1>
+        </header>
+        
+        <section id="countdown">
+            <h2>Countdown to the Big Day:</h2>
+            <div id="timer"></div>
+        </section>
+        
+        <section id="gallery">
+            <h2>Special Moments</h2>
+            <div class="photo-grid">
+                <img src="/placeholder.svg?height=150&width=150" alt="Memory 1">
+                <img src="/placeholder.svg?height=150&width=150" alt="Memory 2">
+                <img src="/placeholder.svg?height=150&width=150" alt="Memory 3">
+                <img src="/placeholder.svg?height=150&width=150" alt="Memory 4">
+            </div>
+        </section>
+        
+        <section id="card">
+            <h2>Your Special Card</h2>
+            <div class="birthday-card">
+                <div class="card-front">Click to Open</div>
+                <div class="card-inside">
+                    <p>Wishing you a fantastic birthday filled with joy and laughter!</p>
+                </div>
+            </div>
+        </section>
+        
+        <button id="shareBtn">Share the Joy!</button>
+        
+        <audio id="bgMusic" loop>
+            <source src="happy-birthday.mp3" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+        
+        <button id="musicToggle">🔇</button>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
