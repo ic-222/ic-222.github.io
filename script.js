@@ -1,6 +1,6 @@
 // Countdown Timer
 function updateCountdown() {
-    const birthday = new Date("2023-12-31T00:00:00").getTime(); // Set your friend's birthday here
+    const birthday = new Date("2025-09-22T00:00:00").getTime(); // Asegúrate de cambiar esta fecha al cumpleaños correcto
     const now = new Date().getTime();
     const distance = birthday - now;
 
@@ -13,11 +13,14 @@ function updateCountdown() {
 
     if (distance < 0) {
         clearInterval(countdownTimer);
-        document.getElementById("timer").innerHTML = "Happy Birthday!";
+        document.getElementById("timer").innerHTML = "¡Feliz Cumpleaños!";
     }
 }
 
 const countdownTimer = setInterval(updateCountdown, 1000);
+
+// Llamar a updateCountdown inmediatamente para evitar el retraso inicial
+updateCountdown();
 
 // Birthday Card Animation
 const card = document.querySelector('.birthday-card');
@@ -29,13 +32,13 @@ card.addEventListener('click', () => {
 document.getElementById('shareBtn').addEventListener('click', () => {
     if (navigator.share) {
         navigator.share({
-            title: 'Birthday Wishes',
-            text: 'Check out this awesome birthday page!',
+            title: 'Deseos de Cumpleaños',
+            text: '¡Mira esta increíble página de cumpleaños!',
             url: window.location.href
-        }).then(() => console.log('Shared successfully'))
-        .catch((error) => console.log('Error sharing:', error));
+        }).then(() => console.log('Compartido exitosamente'))
+        .catch((error) => console.log('Error al compartir:', error));
     } else {
-        alert('Web Share API not supported in your browser');
+        alert('La API Web Share no está soportada en tu navegador');
     }
 });
 
@@ -45,13 +48,20 @@ const bgMusic = document.getElementById('bgMusic');
 
 musicToggle.addEventListener('click', () => {
     if (bgMusic.paused) {
-        bgMusic.play();
-        musicToggle.textContent = '🔊';
+        bgMusic.play().then(() => {
+            musicToggle.textContent = '🔊';
+        }).catch((error) => {
+            console.error('Error al reproducir el audio:', error);
+            alert('No se pudo reproducir el audio. Por favor, verifica que el archivo exista y que tu navegador permita la reproducción automática.');
+        });
     } else {
         bgMusic.pause();
         musicToggle.textContent = '🔇';
     }
 });
+
+// Intentar cargar el audio
+bgMusic.load();
 
 // Wave effect on touch (for mobile devices)
 document.body.addEventListener('touchstart', function(e) {
